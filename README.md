@@ -15,6 +15,17 @@ It tags the latest versions with the `latest` tag.
 How to Use This Template
 ------------------------
 
+There are 3 steps that needs to be
+[overridden](https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates#overriding-template-steps): 
+
+1. **clone-webservice** - the 'git clone' command that pulls webservice repo and _the command must clone it to `../ws`
+2. **load-properties-file** - The commands that loads
+   [webservice properties files](https://qubitpi.github.io/jersey-webservice-template/docs/elide/configuration) and they
+   must load them into `../ws/src/main/resources/` directory
+3. **clone-data-models** - the 'git clone' command that pulls
+   [data models](https://qubitpi.github.io/jersey-webservice-template/docs/elide/data-model) repo and _the command must 
+   clone it to `../data-models`
+
 ```yaml
 ---
 jobs:
