@@ -33,7 +33,7 @@ jobs:
     requires: [~pr, ~commit]
     template: QubitPi/jersey_webservice_template_jpa_release_definition@latest
     steps:
-      - clone-webservice: git clone git@github.com:paion-data/astraios.git ../ws
+      - clone-webservice: git clone git@github.com:my-org/my-ws.git ../ws
       - load-properties-file: |
           echo "$OAUTH_PROPERTIES" > ../ws/src/main/resources/oauth.properties
           echo "$APPLICATION_PROPERTIES" > ../ws/src/main/resources/application.properties
