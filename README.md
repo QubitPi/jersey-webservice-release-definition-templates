@@ -1,19 +1,25 @@
 Jersey Webservice Template JPA Release Definition
 =================================================
 
-[![Apache License Badge]](https://www.apache.org/licenses/LICENSE-2.0)
+[![Screwdriver CD badge][Screwdriver CD badge]][Screwdriver CD url]
+[![HashiCorp Packer badge][HashiCorp Packer badge]][HashiCorp Packer url]
+[![HashiCorp Terraform badge][HashiCorp Terraform badge]][HashiCorp Terraform url]
+[![Apache License badge]][Apache License url]
 
-A [Screwdriver CD template] that deploys [Jersey Webservice Template JPA]. It uses the
-[screwdriver-template-main npm package] to assist with template validation, publishing, and tagging.
+A set of [Screwdriver CD template]s that deploys [immutable][Immutable Infrastructure] instances of instantiated [Jersey Webservice Template]s to AWS. It uses the
+[screwdriver-template-main npm package] to assist with template validation, publishing, and tagging. 
 
-This release definition contains the following template:
+This release definition contains the following templates, _each corresponding to a branch in
+[Jersey Webservice Template] GitHub repo_:
 
-1. [Deploying the JPA webservice to AWS using HashiCorp](./sd-template.yaml)
+- [Deploying the `master` branch without SSL/HTTPS or any other addons](./sd-template-basic.yaml)
+- [Deploying the `master` branch with SSL/HTTPS support](./sd-template-ssl.yaml)
+- [Deploying the `jpa-elide` branch without SSL/HTTPS or any other addons](./sd-template-jpa.yaml)
 
-It tags the latest versions with the `latest` tag.
+All templates tag the latest versions with the `latest` tag.
 
-How to Use This Template
-------------------------
+How to Use Templates
+--------------------
 
 There are 3 steps that needs to be
 [overridden](https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates#overriding-template-steps): 

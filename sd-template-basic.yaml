@@ -13,9 +13,11 @@
 # limitations under the License.
 ---
 namespace: QubitPi
-name: jersey_webservice_template_jpa_release_definition
+name: jersey-webservice-release-definition-basic
 version: '1.0.0'
-description: Deploying using hashicorp-aws
+description: |
+  Screwdriver CD template for deploying instantiated jersey webservice to AWS through HashiCorp.
+  This template deploys the webservices only without SSL/HTTPS or any other addons
 maintainer: jack20220723@gmail.com
 config:
   image: buildpack-deps:22.04-scm
@@ -26,38 +28,26 @@ config:
     - install-terraform: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/QubitPi/hashicorp-aws/master/auxiliary/scripts/install-hashicorp-terraform-ubuntu.sh)"
 
     - checkout-hashicorp-deployment-tool: git clone https://github.com/QubitPi/hashicorp-aws.git ../hashicorp-aws
-    - load-packer-variable-file: echo "$AWS_WS_PKRVARS_HCL" > ../hashicorp-aws/hashicorp/webservice/images/aws-ws.auto.pkrvars.hcl
-    - load-ssl-certificate: echo "$SSL_CERTIFICATE" > ../hashicorp-aws/hashicorp/webservice/images/ssl.crt
-    - load-ssl-certificate-key: echo "$SSL_CERTIFICATE_KEY" > ../hashicorp-aws/hashicorp/webservice/images/ssl.key
-    - load-nginx-config-file-for-ssl: echo "$NGINX_CONFIG_FILE" > ../hashicorp-aws/hashicorp/webservice/images/nginx.conf
-    - load-filebeat-config-file: echo "$FILEBEAT_CONFIG_FILE" > ../hashicorp-aws/hashicorp/webservice/images/filebeat.yml
+    - setup-packer: cp ../hashicorp-aws/hashicorp/webservice/images/aws-ws.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/basic
+    - load-packer-variable-file: echo "$AWS_WS_PKRVARS_HCL" > ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
 
-    - load-terraform-variable-file: echo "$AWS_WS_TFVARS" > ../hashicorp-aws/hashicorp/webservice/instances/aws-ws.auto.tfvars
+    - load-terraform-variable-file: echo "$AWS_WS_TFVARS" > ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
 
     - clone-webservice: echo "This step must be implemented by pipeline. Please see README doc for more info" && exit 1
     - load-properties-file: echo "This step must be implemented by pipeline. Please see README doc for more info" && exit 1
 
-    - clone-data-models: echo "This step must be implemented by pipeline. Please see README doc for more info" && exit 1
-    - load-maven-settings-xml: mkdir -p ~/.m2 && echo "$MAVEN_SETTINGS_XML" > ~/.m2/settings.xml
-    - install-data-models: cd ../data-models && mvn clean install
-
     - generate-war: cd ../ws && mvn -B clean package -Dcheckstyle.skip -Dmaven.test.skip
-    - relocate-war-for-hashicorp: cd ../ws && mv target/*.war ../hashicorp-aws/hashicorp/webservice/images/
+    - relocate-war-for-hashicorp: cd ../ws && mv target/*.war ../hashicorp-aws/hashicorp/webservice/images/basic
 
-    - packer-init: cd ../hashicorp-aws/hashicorp/webservice/images/ && packer init .
+    - packer-init: cd ../hashicorp-aws/hashicorp/webservice/images/basic && packer init .
     - packer-validate: packer validate -var "skip_create_ami=true" .
     - packer-build: packer build -var "skip_create_ami=false" .
 
-    - terraform-init: cd ../instances && terraform init
+    - terraform-init: cd ../../instances/basic && terraform init
     - terraform-validate: terraform validate
     - terraform-apply: terraform apply -auto-approve
   secrets:
     - AWS_WS_PKRVARS_HCL
-    - SSL_CERTIFICATE
-    - SSL_CERTIFICATE_KEY
-    - NGINX_CONFIG_FILE
-    - FILEBEAT_CONFIG_FILE
     - AWS_WS_TFVARS
-    - MAVEN_SETTINGS_XML
     - AWS_ACCESS_KEY_ID
     - AWS_SECRET_ACCESS_KEY

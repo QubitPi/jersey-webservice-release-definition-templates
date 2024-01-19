@@ -15,13 +15,47 @@
 shared:
   image: node:18
 jobs:
-  main:
+  main-basic:
     requires: [~pr, ~commit]
     steps:
       - install: npm install -g screwdriver-template-main
       - validate: template-validate
-  publish:
-    requires: main
+    environment:
+      SD_TEMPLATE_PATH: sd-template-basic.yaml
+  publish-basic:
+    requires: main-basic
     steps:
       - install: npm install -g screwdriver-template-main
       - publish: template-publish --tag latest
+    environment:
+      SD_TEMPLATE_PATH: sd-template-basic.yaml
+
+  main-ssl:
+    requires: publish-basic
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - validate: template-validate
+    environment:
+      SD_TEMPLATE_PATH: sd-template-ssl.yaml
+  publish-ssl:
+    requires: main-ssl
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - publish: template-publish --tag latest
+    environment:
+      SD_TEMPLATE_PATH: sd-template-ssl.yaml
+
+  main-jpa:
+    requires: publish-basic
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - validate: template-validate
+    environment:
+      SD_TEMPLATE_PATH: sd-template-jpa.yaml
+  publish-jpa:
+    requires: main-jpa
+    steps:
+      - install: npm install -g screwdriver-template-main
+      - publish: template-publish --tag latest
+    environment:
+      SD_TEMPLATE_PATH: sd-template-jpa.yaml

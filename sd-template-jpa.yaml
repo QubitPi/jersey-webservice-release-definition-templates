@@ -1,0 +1,59 @@
+# Copyright Jiaqi Liu
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+namespace: QubitPi
+name: jersey-webservice-release-definition-jpa
+version: '1.0.0'
+description: |
+  Screwdriver CD template for deploying instantiated jersey webservice to AWS through HashiCorp.
+  This template deploys the jpa-elide branch without SSL/HTTPS or any other addons
+maintainer: jack20220723@gmail.com
+config:
+  template: QubitPi/jersey-webservice-release-definition-basic
+  order: [
+    setup-jdk,
+    install-maven,
+    install-packer,
+    install-terraform,
+    checkout-hashicorp-deployment-tool,
+    setup-packer,
+    load-packer-variable-file,
+    load-ssl-certificate,
+    load-ssl-certificate-key,
+    load-nginx-config-file-for-ssl,
+    load-filebeat-config-file,
+    load-terraform-variable-file,
+    clone-webservice,
+    load-properties-file,
+    clone-data-models,
+    load-maven-settings-xml,
+    install-data-models,
+    generate-war,
+    relocate-war-for-hashicorp,
+    packer-init,
+    packer-validate,
+    packer-build,
+    terraform-init,
+    terraform-validate,
+    terraform-apply,
+  ]
+  steps:
+    - clone-webservice: echo "This step must be implemented by pipeline. Please see README doc for more info" && exit 1
+    - load-properties-file: echo "This step must be implemented by pipeline. Please see README doc for more info" && exit 1
+
+    - clone-data-models: echo "This step must be implemented by pipeline. Please see README doc for more info" && exit 1
+    - load-maven-settings-xml: mkdir -p ~/.m2 && echo "$MAVEN_SETTINGS_XML" > ~/.m2/settings.xml
+    - install-data-models: cd ../data-models && mvn clean install
+  secrets:
+    - MAVEN_SETTINGS_XML
