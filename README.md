@@ -5,6 +5,7 @@ Jersey Webservice Template JPA Release Definition
 [![HashiCorp Packer badge][HashiCorp Packer badge]][HashiCorp Packer url]
 [![HashiCorp Terraform badge][HashiCorp Terraform badge]][HashiCorp Terraform url]
 [![Apache License badge]][Apache License url]
+[![GitHub Workflow Status][GitHub Workflow Status badge]][GitHub Workflow Status url]
 
 A set of [Screwdriver CD template]s that deploys [immutable][Immutable Infrastructure] instances of instantiated [Jersey Webservice Template]s to AWS. It uses the
 [screwdriver-template-main npm package] to assist with template validation, publishing, and tagging. 
@@ -96,6 +97,9 @@ The use and distribution terms for [Jersey Webservice Template JPA Release Defin
 [Apache License badge]: https://img.shields.io/badge/Apache%202.0-F25910.svg?style=for-the-badge&logo=Apache&logoColor=white
 [Apache License url]: https://www.apache.org/licenses/LICENSE-2.0
 [Apache License, Version 2.0]: http://www.apache.org/licenses/LICENSE-2.0.html
+
+[GitHub Workflow Status badge]: https://img.shields.io/github/actions/workflow/status/QubitPi/jersey-webservice-release-definition-templates/ci-cd.yml?branch=master&logo=github&style=for-the-badge
+[GitHub Workflow Status url]: https://github.com/QubitPi/jersey-webservice-release-definition-templates/actions/workflows/ci-cd.yml
 
 [HashiCorp Packer badge]: https://img.shields.io/badge/Packer-02A8EF?style=for-the-badge&logo=Packer&logoColor=white
 [HashiCorp Packer url]: https://qubitpi.github.io/hashicorp-packer/packer/docs
