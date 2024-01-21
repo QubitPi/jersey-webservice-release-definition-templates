@@ -21,13 +21,29 @@ name: CI/CD
       - master
 
 jobs:
+  list-templates:
+    name: Listing Templates to Validate
+    runs-on: ubuntu-latest
+    outputs:
+      paths: ${{ steps.list-templates.outputs.paths }}
+    steps:
+      - name: List Files
+        id: list-templates
+        uses: mirko-felice/list-files-action@v3.0.5
+        with:
+          repo: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          path: "templates"
+          ext: ".yaml"
+
   validate:
     name: Validating Template
+    needs: list-templates
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        template: [sd-template-basic.yaml, sd-template-ssl.yaml, sd-template-jpa.yaml]
+        template: ${{ fromJson(needs.list-templates.outputs.paths) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
