@@ -7,7 +7,8 @@ Jersey Webservice Template JPA Release Definition
 [![Apache License badge]][Apache License url]
 [![GitHub Workflow Status][GitHub Workflow Status badge]][GitHub Workflow Status url]
 
-A set of [Screwdriver CD template]s that deploys [immutable][Immutable Infrastructure] instances of instantiated [Jersey Webservice Template]s to AWS. It uses the
+A set of [Screwdriver CD template]s that deploys [immutable][Immutable Infrastructure] instances of instantiated 
+[Jersey Webservice Template]s to AWS. It uses the
 [screwdriver-template-main npm package] to assist with template validation, publishing, and tagging. 
 
 This release definition contains the following templates, _each corresponding to a branch in
@@ -107,7 +108,9 @@ The use and distribution terms for [Jersey Webservice Template JPA Release Defin
 [HashiCorp Terraform badge]: https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white
 [HashiCorp Terraform url]: https://qubitpi.github.io/hashicorp-terraform/terraform/docs
 
-[Jersey Webservice Template JPA]: https://qubitpi.github.io/jersey-webservice-template/docs/category/jpa-through-yahooelide
+[Immutable Infrastructure]: https://www.hashicorp.com/resources/what-is-mutable-vs-immutable-infrastructure
+
+[Jersey Webservice Template]: https://qubitpi.github.io/jersey-webservice-template/
 [Jersey Webservice Template JPA Release Definition]: https://github.com/QubitPi/jersey-webservice-template-jpa-release-definition
 
 [Screwdriver CD template]: https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates
