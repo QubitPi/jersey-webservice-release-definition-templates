@@ -1,5 +1,5 @@
-Jersey Webservice Template JPA Release Definition
-=================================================
+Jersey Webservice Release Definition Templates
+==============================================
 
 [![Screwdriver CD badge][Screwdriver CD badge]][Screwdriver CD url]
 [![HashiCorp Packer badge][HashiCorp Packer badge]][HashiCorp Packer url]
@@ -20,6 +20,12 @@ This release definition contains the following templates, _each corresponding to
 - [Deploying the `jpa-elide` branch and puts the webservice behind a Kong API gateway](templates/sd-template-jpa-behind-kong.yaml)
 
 All templates tag the latest versions with the `latest` tag.
+
+> [!TIP]
+> [Jersey Webservice release definition templates] is a satellite project of
+> [hashicorp-aws](https://qubitpi.github.io/hashicorp-aws/) and more documentation can be found in its
+> [dedicated page for Machine Learining model deployment support](https://qubitpi.github.io/hashicorp-aws/docs/webservice)
+> <img src="https://github.com/QubitPi/QubitPi/blob/master/img/8%E5%A5%BD.gif?raw=true" height="40px"/>
 
 How to Use Templates
 --------------------
@@ -87,7 +93,7 @@ The following [Screwdriver Secrets] needs to be defined before running this temp
 License
 -------
 
-The use and distribution terms for [Jersey Webservice Template JPA Release Definition] are covered by the
+The use and distribution terms for [Jersey Webservice release definition templates] are covered by the
 [Apache License, Version 2.0].
 
 <div align="center">
@@ -111,7 +117,7 @@ The use and distribution terms for [Jersey Webservice Template JPA Release Defin
 [Immutable Infrastructure]: https://www.hashicorp.com/resources/what-is-mutable-vs-immutable-infrastructure
 
 [Jersey Webservice Template]: https://qubitpi.github.io/jersey-webservice-template/
-[Jersey Webservice Template JPA Release Definition]: https://github.com/QubitPi/jersey-webservice-template-jpa-release-definition
+[Jersey Webservice release definition templates]: https://github.com/QubitPi/jersey-webservice-release-definition-templates
 
 [Screwdriver CD template]: https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates
 [Screwdriver Secrets]: https://qubitpi.github.io/screwdriver-cd-guide/user-guide/configuration/secrets
