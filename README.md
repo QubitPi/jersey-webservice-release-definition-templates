@@ -109,7 +109,7 @@ The use and distribution terms for [Jersey Webservice release definition templat
 [GitHub Workflow Status badge]: https://img.shields.io/github/actions/workflow/status/QubitPi/jersey-webservice-release-definition-templates/ci-cd.yml?branch=master&logo=github&style=for-the-badge
 [GitHub Workflow Status URL]: https://github.com/QubitPi/jersey-webservice-release-definition-templates/actions/workflows/ci-cd.yml
 
-[hashicorp-aws](https://qubitpi.github.io/hashicorp-aws/)
+[hashicorp-aws]: https://qubitpi.github.io/hashicorp-aws/
 [HashiCorp Packer badge]: https://img.shields.io/badge/Packer-02A8EF?style=for-the-badge&logo=Packer&logoColor=white
 [HashiCorp Packer URL]: https://qubitpi.github.io/hashicorp-packer/packer/docs
 [HashiCorp Terraform badge]: https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white
