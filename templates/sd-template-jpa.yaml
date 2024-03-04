@@ -56,9 +56,8 @@ config:
     - clone-data-models: git clone --depth 1 $(meta get parameters.data-models-repo-git.value) ../data-models
     - load-maven-settings-xml: |
         mkdir -p ~/.m2
-        cd ../ws
+        cd ../data-models
         
-        # https://stackoverflow.com/a/60023743/14312712
         GROUP_ID=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.groupId -q -DforceStdout)
         ARTIFACT_ID=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.artifactId -q -DforceStdout)
         VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
