@@ -53,11 +53,11 @@ config:
 
     - setup-packer: cp ../hashicorp-aws/hashicorp/webservice/images/aws-ws.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/basic
     - load-packer-variable-file: |
-        echo ami_region                       = \"$(meta get parameters.ami-region.value)\"       >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
-        echo ami_name                         = \"$(meta get parameters.ami-name.value)\"         >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
-        echo instance_type                    = \"$(meta get parameters.instance-type.value)\"    >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
-        echo ws_war_path                      = \"ROOT.war\"                                      >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
-        echo aws_ws_filebeat_config_file_path = \"filebeat.yml\"                                  >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
+        echo ami_region                       = \"$(meta get parameters.ami-region.value)\"    >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
+        echo ami_name                         = \"$(meta get parameters.ami-name.value)\"      >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
+        echo instance_type                    = \"$(meta get parameters.instance-type.value)\" >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
+        echo ws_war_path                      = \"ROOT.war\"                                   >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
+        echo aws_ws_filebeat_config_file_path = \"filebeat.yml\"                               >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
 
     - load-terraform-variable-file: |
         echo aws_deploy_region   = \"$(meta get parameters.aws-deploy-region.value)\" >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
