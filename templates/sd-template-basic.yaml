@@ -51,7 +51,9 @@ config:
 
     - checkout-hashicorp-deployment-tool: git clone --depth 1 https://github.com/QubitPi/hashicorp-aws.git ../hashicorp-aws
 
-    - setup-packer: cp ../hashicorp-aws/hashicorp/webservice/images/aws-ws.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/basic
+    - setup-packer: |
+        cp ../hashicorp-aws/hashicorp/webservice/images/aws-ws.packer.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/basic
+        cp ../hashicorp-aws/hashicorp/webservice/images/aws-ws.source.pkr.hcl ../hashicorp-aws/hashicorp/webservice/images/basic
     - load-packer-variable-file: |
         echo ami_region                       = \"$(meta get parameters.ami-region.value)\"    >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
         echo ami_name                         = \"$(meta get parameters.ami-name.value)\"      >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
@@ -59,6 +61,7 @@ config:
         echo ws_war_path                      = \"ROOT.war\"                                   >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
         echo aws_ws_filebeat_config_file_path = \"filebeat.yml\"                               >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
 
+    - setup-terraform: cp ../hashicorp-aws/hashicorp/webservice/instances/aws-ws.base.tf ../hashicorp-aws/hashicorp/webservice/instances/basic
     - load-terraform-variable-file: |
         echo aws_deploy_region   = \"$(meta get parameters.aws-deploy-region.value)\" >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
         echo ami_name            = \"$(meta get parameters.ami-name.value)\"          >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
