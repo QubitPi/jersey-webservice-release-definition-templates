@@ -17,7 +17,6 @@ This release definition contains the following templates, _each corresponding to
 - [Deploying the `master` branch without SSL/HTTPS or any other addons](templates/sd-template-basic.yaml)
 - [Deploying the `master` branch with SSL/HTTPS support](templates/sd-template-ssl.yaml)
 - [Deploying the `jpa-elide` branch without SSL/HTTPS or any other addons](templates/sd-template-jpa.yaml)
-- [Deploying the `jpa-elide` branch and puts the webservice behind a Kong API gateway](templates/sd-template-jpa-behind-kong.yaml)
 
 All templates tag the latest versions with the `latest` tag.
 
