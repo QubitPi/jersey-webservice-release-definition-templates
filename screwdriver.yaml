@@ -30,21 +30,6 @@ jobs:
     environment:
       SD_TEMPLATE_PATH: templates/sd-template-basic.yaml
 
-  main-ssl:
-    requires: publish-basic
-    steps:
-      - install: npm install -g screwdriver-template-main
-      - validate: template-validate
-    environment:
-      SD_TEMPLATE_PATH: templates/sd-template-ssl.yaml
-  publish-ssl:
-    requires: main-ssl
-    steps:
-      - install: npm install -g screwdriver-template-main
-      - publish: template-publish --tag latest
-    environment:
-      SD_TEMPLATE_PATH: templates/sd-template-ssl.yaml
-
   main-jpa:
     requires: publish-basic
     steps:
