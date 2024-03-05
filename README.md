@@ -15,7 +15,6 @@ This release definition contains the following templates, _each corresponding to
 [Jersey Webservice Template] GitHub repo_:
 
 - [Deploying the `master` branch without SSL/HTTPS or any other addons](templates/sd-template-basic.yaml)
-- [Deploying the `master` branch with SSL/HTTPS support](templates/sd-template-ssl.yaml)
 - [Deploying the `jpa-elide` branch without SSL/HTTPS or any other addons](templates/sd-template-jpa.yaml)
 
 All templates tag the latest versions with the `latest` tag.
@@ -29,65 +28,38 @@ All templates tag the latest versions with the `latest` tag.
 How to Use Templates
 --------------------
 
-There are 3 steps that needs to be
-[overridden](https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates#overriding-template-steps): 
+> [!NOTE]
+> Before preceding, please note that it is assumed [all templates](./templates) have already been
+> installed in Screwdriver. If not, please see documentation on [publishing a template in Screwdriver]
 
-1. **clone-webservice** - the 'git clone' command that pulls webservice repo and _the command must clone it to `../ws`
-2. **load-properties-file** - The commands that loads
-   [webservice properties files](https://qubitpi.github.io/jersey-webservice-template/docs/elide/configuration) and they
-   must load them into `../ws/src/main/resources/` directory
-3. **clone-data-models** - the 'git clone' command that pulls
-   [data models](https://qubitpi.github.io/jersey-webservice-template/docs/elide/data-model) repo and _the command must 
-   clone it to `../data-models`
+[Create a Screwdriver pipeline that uses one of the templates][Screwdriver - create pipeline from template] with the
+`screwdriver.yaml` file. Taking [JPA webservice template](./templates/sd-template-jpa.yaml) as an example:
 
 ```yaml
 ---
 jobs:
   main:
     requires: [~pr, ~commit]
-    template: QubitPi/jersey_webservice_template_jpa_release_definition@latest
-    steps:
-      - clone-webservice: git clone git@github.com:my-org/my-ws.git ../ws
-      - load-properties-file: |
-          echo "$OAUTH_PROPERTIES" > ../ws/src/main/resources/oauth.properties
-          echo "$APPLICATION_PROPERTIES" > ../ws/src/main/resources/application.properties
-          echo "$JPADATASTORE_PROPERTIES" > ../ws/src/main/resources/jpadatastore.properties
-      - clone-data-models: git clone https://$DATA_MODEL_PAT_TOKEN@github.com/my-org/my-data-models.git ../data-models
-
+    template: QubitPi/jersey-webservice-release-definition-jpa@latest
     secrets:
-      - AWS_WS_PKRVARS_HCL
-      - SSL_CERTIFICATE
-      - SSL_CERTIFICATE_KEY
-      - NGINX_CONFIG_FILE
-      - FILEBEAT_CONFIG_FILE
-      - AWS_WS_TFVARS
-      - MAVEN_SETTINGS_XML
-      - OAUTH_PROPERTIES
-      - APPLICATION_PROPERTIES
-      - JPADATASTORE_PROPERTIES
-      - DATA_MODEL_PAT_TOKEN
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
 ```
 
-The following [Screwdriver Secrets] needs to be defined before running this template:
+The following [Screwdriver CD Secrets] needs to be defined before running the pipeline:
 
-> [!TIP]
-> Please refer to
-> [Jersey Webservice Template documentation](https://qubitpi.github.io/jersey-webservice-template/docs/configuration#cicd)
-> on what each of those secrets are and how to obtain them.
+- [`AWS_ACCESS_KEY_ID`](https://qubitpi.github.io/hashicorp-aws/docs/setup#aws)
+- [`AWS_SECRET_ACCESS_KEY`](https://qubitpi.github.io/hashicorp-aws/docs/setup#aws)
 
-- AWS_WS_PKRVARS_HCL
-- SSL_CERTIFICATE
-- SSL_CERTIFICATE_KEY
-- NGINX_CONFIG_FILE
-- AWS_WS_TFVARS
-- MAVEN_SETTINGS_XML
-- AWS_ACCESS_KEY_ID
-- AWS_SECRET_ACCESS_KEY
+To run the pipeline, fill in the **parameters** first:
 
-> [!NOTE]
-> See [Screwdriver's Template documentation][Screwdriver CD template] for more information.
+<div align="center">
+
+<img width="30%" src="https://github.com/QubitPi/QubitPi/blob/master/img/jersey-webservice-release-definition-templates-parameters.png?raw=true" />
+
+</div>
+
+Then hit "**Submit**" to start deploying.
 
 License
 -------
@@ -119,8 +91,10 @@ The use and distribution terms for [Jersey Webservice release definition templat
 [Jersey Webservice Template]: https://qubitpi.github.io/jersey-webservice-template/
 [Jersey Webservice release definition templates]: https://github.com/QubitPi/jersey-webservice-release-definition-templates
 
-[Screwdriver CD template]: https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates
-[Screwdriver Secrets]: https://qubitpi.github.io/screwdriver-cd-guide/user-guide/configuration/secrets
+[publishing a template in Screwdriver]: https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates#publishing-a-template
+
+[Screwdriver - create pipeline from template]: https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates#using-a-template
 [screwdriver-template-main npm package]: https://github.com/QubitPi/screwdriver-cd-template-main
+[Screwdriver CD template]: https://qubitpi.github.io/screwdriver-cd-guide/user-guide/templates
 [Screwdriver CD URL]: https://qubitpi.github.io/screwdriver-cd-homepage/
 [Screwdriver CD badge]: https://img.shields.io/badge/Screwdriver%20CD-1475BB?style=for-the-badge&logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBVcGxvYWRlZCB0bzogU1ZHIFJlcG8sIHd3dy5zdmdyZXBvLmNvbSwgR2VuZXJhdG9yOiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4NCjxzdmcgaGVpZ2h0PSI4MDBweCIgd2lkdGg9IjgwMHB4IiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiANCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBhdGggc3R5bGU9ImZpbGw6I2ZmZmZmZjsiIGQ9Ik01MDQuNzgzLDc3LjA5MWgtMC4wMDZIMzAzLjQ5NGMtMi4wMzYsMC0zLjk3NywwLjg1OS01LjM0NSwyLjM2Ng0KCWMtMS4zNjgsMS41MDgtMi4wMzgsMy41Mi0xLjg0Miw1LjU0OWwzLjkyNSw0MC42OTNjMC4zNDMsMy41NTIsMy4yMjgsNi4zMiw2Ljc5Miw2LjUxNmw0Mi4wNSwyLjMxNGwtODAuNzM2LDExMi4wMjNMMTgwLjI5Myw3MS4xNDINCglsNjMuNTYzLTIuNDNjMy44NDQtMC4xNDYsNi44OTYtMy4yNzYsNi45NDUtNy4xMjFsMC40NjQtMzYuMzkyYzAuMDIyLTEuOTMyLTAuNzI2LTMuNzkyLTIuMDgyLTUuMTY2DQoJYy0xLjM1Ni0xLjM3Mi0zLjIwNi0yLjE0Ny01LjEzNy0yLjE0N0g3LjIyYy0zLjk4OSwwLTcuMjIsMy4yMzEtNy4yMiw3LjIyMXY0MC41NThjMCwzLjk0NywzLjE3LDcuMTYzLDcuMTE1LDcuMjJsNjYuOTE3LDAuOTY0DQoJbDEyNy4yNTcsMjI0LjQ4OGwtMC41NjgsMTQwLjIwNWwtODguNDgsMy42MzFjLTMuODE3LDAuMTU1LTYuODUsMy4yNTktNi45MjMsNy4wNzdsLTAuNzE2LDM3LjUwNg0KCWMtMC4wMzcsMS45MzksMC43MDksMy44MSwyLjA2OSw1LjE5NmMxLjM1NiwxLjM4MywzLjIxMiwyLjE2MSw1LjE1MSwyLjE2MWgyNzYuNzYyYzEuOTgxLDAsMy44NzUtMC44MTMsNS4yMzktMi4yNDkNCgljMS4zNjMtMS40MzUsMi4wNzgtMy4zNjgsMS45NzQtNS4zNDZsLTEuOTMzLTM3LjEzMmMtMC4xOTItMy42OTItMy4xNC02LjY0MS02LjgzNS02LjgzNGwtNzYuMTI0LTMuOTkybC0xMS4wODItMTM2LjU3DQoJTDQzNi40NzksMTM3LjMzbDU1LjY0LTIuNTNjMy4wNjMtMC4xNDIsNS43MDQtMi4yMDIsNi41ODctNS4xMzlsMTIuOTA5LTQzLjAxOGMwLjI0OC0wLjcyOSwwLjM4NS0xLjUxNiwwLjM4NS0yLjMzMg0KCUM1MTIsODAuMzI1LDUwOC43NzIsNzcuMDkxLDUwNC43ODMsNzcuMDkxeiIvPg0KPC9zdmc+
