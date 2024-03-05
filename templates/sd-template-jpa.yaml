@@ -32,6 +32,7 @@ config:
     setup-packer,
     load-packer-variable-file,
 
+    setup-terraform,
     load-terraform-variable-file,
 
     clone-webservice,
