@@ -59,18 +59,3 @@ jobs:
       - publish: template-publish --tag latest
     environment:
       SD_TEMPLATE_PATH: templates/sd-template-jpa.yaml
-
-  main-jpa-behind-kong:
-    requires: publish-jpa
-    steps:
-      - install: npm install -g screwdriver-template-main
-      - validate: template-validate
-    environment:
-      SD_TEMPLATE_PATH: templates/sd-template-jpa-behind-kong.yaml
-  publish-jpa-behind-kong:
-    requires: main-jpa-behind-kong
-    steps:
-      - install: npm install -g screwdriver-template-main
-      - publish: template-publish --tag latest
-    environment:
-      SD_TEMPLATE_PATH: templates/sd-template-jpa-behind-kong.yaml
