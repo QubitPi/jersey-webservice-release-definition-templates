@@ -43,6 +43,9 @@ config:
     ws-repo-git:
       value: "https://github.com/QubitPi/jersey-webservice-template.git"
       description: "The git URL to the repository of the webservice to be deployed"
+    elk-hosts:
+      value: ["myelk.instance.com:8080"]
+      description: "The list of Logstash hosts with ports to receive webservice log data"
   steps:
     - setup-jdk: sd-cmd exec QubitPi/install-jdk-ubuntu@latest
     - install-maven: sd-cmd exec QubitPi/install-maven-ubuntu@latest
@@ -61,13 +64,27 @@ config:
         echo ws_war_path                  = \"ROOT.war\"                                   >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
         echo ws_filebeat_config_file_path = \"filebeat.yml\"                               >> ../hashicorp-aws/hashicorp/webservice/images/basic/aws-ws.auto.pkrvars.hcl
 
+        cat  << EOF >>../hashicorp-aws/hashicorp/webservice/images/basic/filebeat.yml
+        filebeat.config.modules:
+          path: ${path.config}/modules.d/*.yml
+          reload.enabled: false
+        
+        filebeat.inputs:
+          - type: log
+            paths:
+              - /home/ubuntu/jetty-base/logback/*
+        
+        output.logstash:
+          hosts: $(meta get parameters.elk-hosts.value)
+        EOF
+
     - setup-terraform: cp ../hashicorp-aws/hashicorp/webservice/instances/aws-ws.base.tf ../hashicorp-aws/hashicorp/webservice/instances/basic
     - load-terraform-variable-file: |
-        echo aws_deploy_region   = \"$(meta get parameters.aws-deploy-region.value)\" >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
-        echo ami_name            = \"$(meta get parameters.ami-name.value)\"          >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
-        echo instance_type       = \"$(meta get parameters.instance-type.value)\"     >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
-        echo ec2_instance_name   = \"$(meta get parameters.instance-name.value)\"     >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
-        echo ec2_security_groups = \"$(meta get parameters.security-groups.value)\"   >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
+        echo aws_deploy_region = \"$(meta get parameters.aws-deploy-region.value)\" >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
+        echo ami_name          = \"$(meta get parameters.ami-name.value)\"          >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
+        echo instance_type     = \"$(meta get parameters.instance-type.value)\"     >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
+        echo ec2_instance_name = \"$(meta get parameters.instance-name.value)\"     >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
+        echo security_groups   = $(meta get parameters.security-groups.value)       >> ../hashicorp-aws/hashicorp/webservice/instances/basic/aws-ws.auto.tfvars
 
     - clone-webservice: git clone --depth 1 $(meta get parameters.ws-repo-git.value) ../ws
 
